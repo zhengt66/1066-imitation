@@ -124,15 +124,21 @@ public class GameCourt extends JPanel {
         
         if (onSide == side && steps != 0 && validMove(g, side, e) ) {
             t.addMoves(e);
-            t.decrStepsLeft();       
+            t.decrStepsLeft();
+            System.out.println("added valid move");
         }
     }
     
-	/*checks if move dictated by arrow key is illegal
-     * (if it is out of bounds or if move is onto an occupied square)*/
+	/* checks if move dictated by arrow key is illegal
+     * (if it is out of bounds or if move is onto an occupied square)
+     * updates battleField if move is valid, for reference in later
+     * calls of validMove*/
     private boolean validMove(TroopObj g, boolean side, KeyEvent e) {
-        //executes valid moves prior to the current move being evaluated
-        moveParser(g);
+        //executes valid moves prior to the current move being evaluated;
+         
+        for (KeyEvent m : g.getMoves()) {
+            moveParser(g, m);
+        }
         
         int xpos = g.getX();
         int ypos = g.getY();
@@ -144,7 +150,6 @@ public class GameCourt extends JPanel {
                     return false;
                 }
             }
-            //battleField[xpos - 1][ypos] = g;
             return true;
         }
         else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -154,18 +159,15 @@ public class GameCourt extends JPanel {
                     return false;
                 }
             }
-            //battleField[xpos + 1][ypos] = g;
             return true;
         }
         else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            System.out.println(ypos);
             if (ypos + 1 >= fieldYDim) return false;
             for (TroopObj to : troopUnits) {
                 if (to.getX() == xpos && to.getY() == ypos + 1) {
                     return false;
                 }
             }
-            //battleField[xpos][ypos + 1] = g;
             return true;
         }
         else if (e.getKeyCode() == KeyEvent.VK_UP) {
@@ -175,7 +177,6 @@ public class GameCourt extends JPanel {
                     return false;
                 }
             }
-            //battleField[xpos][ypos - 1] = g;
             return true;
         }
         return false;
@@ -209,64 +210,27 @@ public class GameCourt extends JPanel {
     
     /* iterates through and executes each move in the LinkedList of moves;
      * checks enemies*/
-    public void moveParser(TroopObj newT) {
+    public void moveParser(TroopObj t, KeyEvent m) {
         
-        final TroopObj t = newT;
-        
-        for(KeyEvent m : t.getMoves()) {
-            int prevX = t.getX();
-            int prevY = t.getY();
+            int x = t.getX();
+            int y = t.getY();
 
-            
-            int xpos = t.getX();
-            int ypos = t.getY();
-                        
             if (m.getKeyCode() == KeyEvent.VK_LEFT) {
-                t.setX(xpos -= 1);
+                t.setX(x -= 1);
             }
             else if (m.getKeyCode() == KeyEvent.VK_RIGHT) {
-                t.setX(xpos += 1);
+                t.setX(x += 1);
             }
             else if (m.getKeyCode() == KeyEvent.VK_DOWN) {
-                t.setY(ypos += 1);
+                t.setY(y += 1);
             }
             else if (m.getKeyCode() == KeyEvent.VK_UP) {
-                t.setY(ypos -= 1);
+                t.setY(y -= 1);
             }
             else {
                 System.out.println(m.getKeyCode() + " was in queue.");
                 throw new IllegalArgumentException();
             }
-
-            try {
-                Thread.sleep(00);
-                int x = xpos;
-                int y = ypos;
-                if (x != prevX || y != prevY) {
-                battleField[x][y] = t;
-                }
-                
-                if (!(t instanceof GhostUnit)) {
-                    battleField[prevX][prevY] = null;
-                }
-                
-                System.out.println("repainted after new position");
-                repaint();
-                // checks surrounding areas for foes, attacks them
-                if (!(t instanceof GhostUnit)) {
-                    try {
-                        Thread.sleep(00);
-                        checkEnemies(t);
-                        System.out.println("repainted after attacking");
-                        repaint();
-                    } catch (InterruptedException ie) {
-                        status.setText("Moving was interrupted...oh no!");
-                    }
-                }
-            } catch (InterruptedException ie) {
-                status.setText("Moving was interrupted...oh no!");
-            }
-        }
     }
     
     
@@ -275,27 +239,77 @@ public class GameCourt extends JPanel {
         // if t has no moves to do, just attack
         if (t.getMoves().isEmpty()) {
             checkEnemies(t);
-            repaint();
+            repaint(); return;
         } 
-        else {
-            
+        
+        for(KeyEvent m : t.getMoves()) {
             int prevX = t.getX();
             int prevY = t.getY();
             
-            moveParser(t);
+            
+            int xpos = t.getX();
+            int ypos = t.getY();
+            
+            if (m.getKeyCode() == KeyEvent.VK_LEFT) {
+                t.setX(xpos -= 1);
+            }
+            else if (m.getKeyCode() == KeyEvent.VK_RIGHT) {
+                t.setX(xpos += 1);
+            }
+            else if (m.getKeyCode() == KeyEvent.VK_DOWN) {
+                t.setY(ypos += 1);
+                }
+                else if (m.getKeyCode() == KeyEvent.VK_UP) {
+                    t.setY(ypos -= 1);
+                }
+                else {
+                    System.out.println(m.getKeyCode() + " was in queue.");
+                    throw new IllegalArgumentException();
+                }
+
+                try {
+                    Thread.sleep(00);
+                    
+                    
+
+                    int x = t.getX();
+                    int y = t.getY();
+                    battleField[x][y] = t;
+                    
+                    if (x != prevX || y != prevY) {
+                        battleField[prevX][prevY] = null;
+                    }
+                    
+                    if (x != prevX || y != prevY) {
+                    battleField[x][y] = t;
+                    }
+                    
+                    if (!(t instanceof GhostUnit)) {
+                        battleField[prevX][prevY] = null;
+                    }
+                    
+                    System.out.println("repainted after new position");
+                    repaint();
+                    // checks surrounding areas for foes, attacks them
+                    if (!(t instanceof GhostUnit)) {
+                        try {
+                            Thread.sleep(00);
+                            checkEnemies(t);
+                            System.out.println("repainted after attacking");
+                            repaint();
+                        } catch (InterruptedException ie) {
+                            status.setText("Moving was interrupted...oh no!");
+                        }
+                    }
+                } catch (InterruptedException ie) {
+                    status.setText("Moving was interrupted...oh no!");
+                }
+            }
             
             t.clearMoves();
             t.resetSteps();
             
-            int x = t.getX();
-            int y = t.getY();
-            battleField[x][y] = t;
-            
-            if (x != prevX || y != prevY) {
-                battleField[prevX][prevY] = null;
-            }
         }
-    }
 
 	/**
 	 * (Re-)set the game to its initial state.
