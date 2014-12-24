@@ -1,6 +1,7 @@
 1066-imitation
 ==============
 Inspired by Preloaded's 1066 (1066game.com). Made for CIS 120 at UPenn.
+Still not finished, so there's some debugging print statements. Am trying to get animation of the troops moving on the field.
 
 Text below copy-pasted from README submitted for homework.
 
