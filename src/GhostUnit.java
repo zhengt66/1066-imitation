@@ -8,7 +8,7 @@ public class GhostUnit extends TroopObj {
     private int ypos;
 
     GhostUnit(int steps, boolean side, int xpos, int ypos) {
-        super(steps, side, xpos, ypos, 1000, 0, 0, Color.WHITE);
+        super(steps, side, xpos, ypos, 1, 0, 0, Color.WHITE);
         this.c = Color.WHITE;
         this.xpos = xpos;
         this.ypos = ypos;

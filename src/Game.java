@@ -86,9 +86,9 @@ public class Game implements Runnable {
 		        }
 		        court.side = !court.side;
 		        if (court.side) {
-		            status.setText("Running...Green to move");
+		            status.setText("Running...Green to move.");
 		        } else {
-		            status.setText("Running...Red to move");
+		            status.setText("Running...Red to move.");
 		        }
 		    }
 		});
