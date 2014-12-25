@@ -60,7 +60,7 @@ public class GameCourt extends JPanel {
                 chosenX = e.getX()/20;
                 chosenY = e.getY()/20;
 
-                if(battleField[chosenX][chosenY] != null) {
+                if(battleField[chosenX][chosenY] instanceof StandardUnit) {
                     int troops = battleField[chosenX][chosenY].getTroops();
 
                     if (side) {
@@ -89,7 +89,8 @@ public class GameCourt extends JPanel {
                 if (chosenX > -1 && chosenY > -1 &&
                         battleField[chosenX][chosenY] != null) {
                     System.out.println(
-                            "passed " + e.getKeyCode() + " to addMove");
+                            "passed " + KeyEvent.getKeyText(e.getKeyCode())
+                            + " to addMove");
                     addMove(battleField[chosenX][chosenY], side, e);
                 }
             }
@@ -114,17 +115,19 @@ public class GameCourt extends JPanel {
 
     //adds move to troop unit's move queue
     private void addMove(TroopObj t, boolean side, KeyEvent e) {
-        if (t instanceof GhostUnit) return;
+//        if (t instanceof GhostUnit) return;
 
         int steps = t.getStepsLeft();
         boolean onSide = t.getSide();
         //creates a GhostUnit copy of the unit, with the same coordinates
-        GhostUnit g = new GhostUnit(t.getStepsLeft(), side, t.getX(),
+        GhostUnit g = new GhostUnit(steps, side, t.getX(),
                 t.getY());
         g.setMoves(t.getMoves());
 
         if (onSide == side && steps != 0 && validMove(g, e) ) {
-            
+            moveParser(g, e);
+            battleField[g.getX()][g.getY()] = g;
+            repaint();
 
             t.addMoves(e);
             t.decrStepsLeft();
