@@ -13,13 +13,9 @@ import javax.swing.*;
  * Game Main class that specifies the frame and widgets of the GUI
  */
 public class Game implements Runnable {
-	public void run() {
-		// NOTE : recall that the 'final' keyword notes immutability
-		// even for local variables.
-	    
+	public void run() {	    
 
 		// Top-level frame in which game components live
-		// Be sure to change "TOP LEVEL FRAME" to the name of your game
 		final JFrame frame = new JFrame("CIS 120 Wars");
 		frame.setLocation(10, 10);
 
@@ -97,6 +93,7 @@ public class Game implements Runnable {
 		// Put the frame on the screen
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setResizable(false);
 		frame.setVisible(true);
 
 		// Start game

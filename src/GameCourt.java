@@ -115,7 +115,8 @@ public class GameCourt extends JPanel {
 
     //adds move to troop unit's move queue
     private void addMove(TroopObj t, boolean side, KeyEvent e) {
-//        if (t instanceof GhostUnit) return;
+        //prevents user from adding moves to a GhostUnit made from prior moves
+        if (t instanceof GhostUnit) return;
 
         int steps = t.getStepsLeft();
         boolean onSide = t.getSide();
