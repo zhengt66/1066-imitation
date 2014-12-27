@@ -100,11 +100,12 @@ public class TroopObj {
     /* subtracts troops from a unit based on attacking unit's attack
      * and own defense. If the unit is dead, do nothing*/
     public void attackUnit(TroopObj t) {
+        //noinspection StatementWithEmptyBody
         if (troops > 0) {
             int loss = attack*25 - t.getDef()*15;
             t.setTroops(t.getTroops() - loss);
         }
-        else {};
+        else {}
     }
     
     //draws the unit

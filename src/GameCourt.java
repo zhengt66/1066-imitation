@@ -39,9 +39,6 @@ public class GameCourt extends JPanel {
             new TroopObj[fieldXDim][fieldYDim];    
     private ArrayList<TroopObj> troopUnits = new ArrayList<TroopObj>();
 
-    private int greens;
-    private int reds;
-
     private int chosenX = -1;
     private int chosenY = -1;
 
@@ -62,6 +59,7 @@ public class GameCourt extends JPanel {
                 
                 /* try/catch done because making the game window unresizable
                  *  adds a black area to the right of the 2D array. */
+                //noinspection EmptyCatchBlock
                 try {
                     if(battleField[chosenX][chosenY] instanceof StandardUnit) {
                         int troops = battleField[chosenX][chosenY].getTroops();
@@ -109,14 +107,6 @@ public class GameCourt extends JPanel {
 
     public ArrayList<TroopObj> getTroopUnits() {
         return troopUnits;
-    }
-
-    public int getGreens() {
-        return greens;
-    }
-
-    public int getReds() {
-        return reds;
     }
 
     //adds move to troop unit's move queue
@@ -225,6 +215,7 @@ public class GameCourt extends JPanel {
         int prevY = t.getY();
 
         if (m.getKeyCode() == KeyEvent.VK_LEFT) {
+            //noinspection UnusedAssignment
             t.setX(prevX -= 1);
         }
         else if (m.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -354,21 +345,17 @@ public class GameCourt extends JPanel {
             }
         }
 
-
-
         // displays scores and checks if a side has won
-        int greenCounter = 0;
-        int redCounter = 0;
+        int greens = 0;
+        int reds = 0;
 
         for (TroopObj t : troopUnits) {
             if (t.getSide()) {
-                greenCounter += t.getTroops();
+                greens += t.getTroops();
             } else {
-                redCounter += t.getTroops();
+                reds += t.getTroops();
             }
         }
-        greens = greenCounter;
-        reds = redCounter;
         gCount.setText("Green troops: " + greens);
         rCount.setText("Red troops: " + reds);
 
