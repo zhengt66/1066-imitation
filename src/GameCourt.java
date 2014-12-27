@@ -27,7 +27,7 @@ public class GameCourt extends JPanel {
     private JLabel rCount; // Displays current count of reds
 
     // Game constants
-    public static final int COURT_WIDTH = 540;
+    public static final int COURT_WIDTH = 580;
     public static final int COURT_HEIGHT = 220;
 
     public boolean side = true; // determines which side has the turn
@@ -59,28 +59,34 @@ public class GameCourt extends JPanel {
             public void mousePressed(MouseEvent e) {
                 chosenX = e.getX()/20;
                 chosenY = e.getY()/20;
+                
+                /* try/catch done because making the game window unresizable
+                 *  adds a black area to the right of the 2D array. */
+                try {
+                    if(battleField[chosenX][chosenY] instanceof StandardUnit) {
+                        int troops = battleField[chosenX][chosenY].getTroops();
 
-                if(battleField[chosenX][chosenY] instanceof StandardUnit) {
-                    int troops = battleField[chosenX][chosenY].getTroops();
+                        if (side) {
+                            status.setText("Green to move. "
+                                    + "Selected unit's troop count: " + troops);
+                        }
+                        else {status.setText("Red to move. "
+                                + "Selected unit's troop count: " + troops);
+                        }
+                    }
 
-                    if (side) {
-                        status.setText("Green to move. Selected unit's troop "
-                                + "count: " + troops);
+                    else {
+                        if (side) {
+                            status.setText("Running...Green to move.");
+                        }
+                        else {status.setText("Running...Red to move.");
+                        }
                     }
-                    else {status.setText("Red to move. Selected unit's troop "
-                            + "count: " + troops);
-                    }
+
+                    repaint();
+                } catch (ArrayIndexOutOfBoundsException oobe) {
+                    
                 }
-
-                else {
-                    if (side) {
-                        status.setText("Running...Green to move.");
-                    }
-                    else {status.setText("Running...Red to move.");
-                    }
-                }
-
-                repaint();
             }
         });
 
@@ -324,8 +330,11 @@ public class GameCourt extends JPanel {
             g.setColor(Color.ORANGE);
             g.drawRect(chosenX*20, chosenY*20, 20, 20);
         }
-
+        
+        
         // draws/redraws battlefield
+        g.setColor(Color.GRAY);
+        
         for (int x = 0; x < fieldXDim; x++) {
             for (int y = 0; y < fieldYDim; y++) {
                 if (battleField[x][y] == null) {
