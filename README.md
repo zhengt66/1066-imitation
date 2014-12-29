@@ -1,7 +1,10 @@
 1066-imitation
 ==============
 Inspired by Preloaded's 1066 (1066game.com). Made for CIS 120 at UPenn.
-Still not finished, so there's some debugging print statements. Am trying to get animation of the troops moving on the field.
+Still not finished, so there's some debugging print statements.
+Trying to get display of move preview working. Currently is repainting with black circles, repainting selected unit as white. Should be a trail of white.
+
+Will try to get animation of the troops moving on the field with a timer.
 
 Text below copy-pasted from README submitted for homework.
 
