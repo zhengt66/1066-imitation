@@ -117,8 +117,8 @@ public class GameCourt extends JPanel {
         int steps = t.getStepsLeft();
         boolean onSide = t.getSide();
         //creates a GhostUnit copy of the unit, with the same coordinates
-        GhostUnit g = new GhostUnit(steps, side, t.getX(),
-                t.getY());
+        GhostUnit g = new GhostUnit(steps, side, t.getX(), t.getY(),
+                t.getColor());
         g.setMoves(t.getMoves());
 
         if (onSide == side && steps != 0 && validMove(g, e) ) {
@@ -215,7 +215,6 @@ public class GameCourt extends JPanel {
         int prevY = t.getY();
 
         if (m.getKeyCode() == KeyEvent.VK_LEFT) {
-            //noinspection UnusedAssignment
             t.setX(prevX -= 1);
         }
         else if (m.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -323,7 +322,7 @@ public class GameCourt extends JPanel {
         }
         
         
-        // draws/redraws battlefield
+        // re/draws battleField
         g.setColor(Color.GRAY);
         
         for (int x = 0; x < fieldXDim; x++) {

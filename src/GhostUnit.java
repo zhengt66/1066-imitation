@@ -2,14 +2,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class GhostUnit extends TroopObj {
-    
+
     private Color c;
     private int xpos;
     private int ypos;
 
-    GhostUnit(int steps, boolean side, int xpos, int ypos) {
-        super(steps, side, xpos, ypos, 1, 0, 0, Color.WHITE);
-        this.c = Color.WHITE;
+    GhostUnit(int steps, boolean side, int xpos, int ypos, Color c) {
+        super(steps, side, xpos, ypos, 1, 0, 0, c);
+        this.c = c;
         this.xpos = xpos;
         this.ypos = ypos;
     }

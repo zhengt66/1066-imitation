@@ -84,14 +84,12 @@ public class TroopObj {
                 " subtracted from " + troops + " " + leftSide + " troops");
         troops = newT;
     }
-    
-    public int getAtt() {
-        return attack;
-    }
 
     public int getDef() {
         return defense;
     }
+
+    public Color getColor() { return color; }
 
     public void clearMoves() {
         moves.clear();
