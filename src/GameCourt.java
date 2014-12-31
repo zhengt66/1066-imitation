@@ -52,6 +52,7 @@ public class GameCourt extends JPanel {
 
         // Adds a mouselistener that determines the click's coords in the 2D
         // array.
+        
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 chosenX = e.getX()/20;
@@ -72,7 +73,7 @@ public class GameCourt extends JPanel {
                                 + "Selected unit's troop count: " + troops);
                         }
                     }
-
+            
                     else {
                         if (side) {
                             status.setText("Running...Green to move.");
@@ -90,7 +91,8 @@ public class GameCourt extends JPanel {
 
         addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
-                if (chosenX > -1 && chosenY > -1 &&
+                if (chosenX > -1 && chosenX < fieldXDim && chosenY > -1 &&
+                        chosenY < fieldYDim &&
                         battleField[chosenX][chosenY] != null) {
                     System.out.println(
                             "passed " + KeyEvent.getKeyText(e.getKeyCode())
@@ -99,7 +101,7 @@ public class GameCourt extends JPanel {
                 }
             }
         });
-
+        
         this.status = status;
         this.gCount = gCount;
         this.rCount = rCount;
@@ -271,7 +273,7 @@ public class GameCourt extends JPanel {
         t.clearMoves();
         t.resetSteps();
 
-    }   
+    }
 
     /**
      * (Re-)set the game to its initial state.
