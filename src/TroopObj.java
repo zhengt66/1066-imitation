@@ -98,27 +98,26 @@ public class TroopObj {
     /* subtracts troops from a unit based on attacking unit's attack
      * and own defense. If the unit is dead, do nothing*/
     public void attackUnit(TroopObj t) {
-        //noinspection StatementWithEmptyBody
         if (troops > 0) {
             int loss = attack*25 - t.getDef()*15;
             t.setTroops(t.getTroops() - loss);
         }
         else {}
     }
-    
-    //draws the unit
-    public void draw(Graphics g) {
-        if (troops > 100 ) {
-        g.setColor(color);
-        }
-        //if troop count is low, sets unit to a different color, based on side
-        else if (leftSide) {
-            g.setColor(new Color(154,205,50));
-        }
-        else {
-            g.setColor(Color.PINK);
-        }
 
+    /* draws the unit; if troop count is low, sets unit to a different color,
+     * based on side*/
+    public void draw(Graphics g) {
+        if (troops <= 100) {
+            if (leftSide) {
+                color = new Color(154,205,50);
+            }
+            else {
+                color = Color.PINK;
+            }
+        }
+        
+        g.setColor(color);
         g.fillOval(xpos*20, ypos*20, 20, 20);
     }
 }
