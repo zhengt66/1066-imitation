@@ -1,6 +1,6 @@
 1066-imitation
 ==============
-Inspired by Preloaded's 1066 (1066game.com). Made for CIS 120 at UPenn.
+Inspired by Preloaded's 1066 (https://preloaded.com/case-studies/1066/). Made for CIS 120 at UPenn.
 
 Known Issues:
 Still not finished, so there's some debugging print statements.
